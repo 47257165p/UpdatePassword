@@ -19,6 +19,8 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.sun.org.apache.xalan.internal.utils.SecuritySupport.getResourceAsStream;
+
 public class Controller {
     /** Application name. */
     private static final String APPLICATION_NAME =
@@ -61,10 +63,9 @@ public class Controller {
      * @return an authorized Credential object.
      * @throws IOException
      */
-    public static Credential authorize() throws IOException {
+    private static Credential authorize() throws IOException {
         // Load client secrets.
-        InputStream in =
-                new FileInputStream("C:\\Users\\AlejandroSA\\IdeaProjects\\UpdatePasswordSecret.json");
+        InputStream in = getResourceAsStream("UpdatePasswordSecret.json");
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
@@ -82,7 +83,7 @@ public class Controller {
         return credential;
     }
 
-    public static Directory getDirectoryService(Credential credential) throws IOException {
+    private static Directory getDirectoryService(Credential credential) throws IOException {
         return new Directory.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
